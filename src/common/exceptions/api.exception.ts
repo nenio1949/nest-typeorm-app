@@ -11,14 +11,14 @@ export class ApiException extends HttpException {
   /**
    * 业务类型错误代码，非Http code
    */
-  private errorCode: ErrorCodeMapType;
+  private errorCode: ErrorCodeMapType | number;
 
-  constructor(errorCode: ErrorCodeMapType) {
-    super(ErrorCodeMap[errorCode], 200);
+  constructor(errorCode: ErrorCodeMapType | number, message?: string) {
+    super(errorCode in ErrorCodeMap ? ErrorCodeMap[errorCode] : message, 200);
     this.errorCode = errorCode;
   }
 
-  getErrorCode(): ErrorCodeMapType {
+  getErrorCode(): ErrorCodeMapType | number {
     return this.errorCode;
   }
 }

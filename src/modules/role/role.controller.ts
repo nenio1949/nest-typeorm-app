@@ -28,37 +28,38 @@ export class RoleController {
 
   @ApiOperation({ summary: '获取角色列表' })
   @ApiOkResponse({ type: [Role] })
-  @Get('list')
-  async list(): Promise<Role[]> {
-    return await this.roleService.list();
-  }
-
-  @ApiOperation({ summary: '分页查询角色信息' })
-  @ApiOkResponse({ type: [Role] })
   @Get()
   async page(
     @Query() dto: PageSearchRoleDto,
-  ): Promise<PaginatedResponseDto<Role>> {
-    const [list, total] = await this.roleService.page(dto);
-    return {
-      list,
-      pagination: {
-        size: dto.size,
-        page: dto.page,
-        total,
-      },
-    };
+  ): Promise<PaginatedResponseDto<Role> | Role[]> {
+    if (dto.isPagination) {
+      // 分页查询
+      const [list, total] = await this.roleService.page(dto);
+      return {
+        list,
+        pagination: {
+          size: dto.size,
+          page: dto.page,
+          total,
+        },
+      };
+    } else {
+      // 查询所有
+      return await this.roleService.list();
+    }
   }
 
   @ApiOperation({ summary: '删除角色' })
+  @ApiOkResponse({ type: Number })
   @Delete('/:ids')
-  async delete(@Param('ids') ids: string): Promise<boolean> {
+  async delete(@Param('ids') ids: string): Promise<number> {
     const idArr = ids.split(',').map(Number);
 
     return await this.roleService.delete(idArr);
   }
 
   @ApiOperation({ summary: '新增角色' })
+  @ApiOkResponse({ type: Number })
   @Post()
   async add(
     @Body() dto: CreateRoleDto,
@@ -73,6 +74,7 @@ export class RoleController {
   }
 
   @ApiOperation({ summary: '更新角色' })
+  @ApiOkResponse({ type: Boolean })
   @Put('/:id')
   async update(
     @Param('id') id: number,

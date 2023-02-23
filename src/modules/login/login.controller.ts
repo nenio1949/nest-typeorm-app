@@ -8,7 +8,7 @@ import { Authorize } from '../core/decorators/authorize.decorator';
 import { LoginResponse } from './login.dto';
 
 @ApiTags('登录模块')
-@Controller()
+@Controller('v1')
 export class LoginController {
   constructor(private loginService: LoginService, private utils: UtilService) {}
 

@@ -30,12 +30,17 @@ export class User extends BaseEntity {
   mobile: string;
 
   /** 账号 */
-  @Column({ comment: '账号', length: 20, nullable: false, unique: true })
+  @Column({
+    comment: '账号',
+    length: 20,
+    nullable: false,
+    unique: true,
+  })
   @ApiProperty()
   account: string;
 
   /** 密码 */
-  @Column({ comment: '密码', length: 50, nullable: false })
+  @Column({ comment: '密码', length: 50, nullable: false, select: false })
   @ApiProperty()
   password: string;
 

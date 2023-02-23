@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -98,6 +99,14 @@ export class UpdateDepartmentDto {
 
 /** 部门分页查询dto */
 export class PageSearchDepartmentDto extends PageOptionsDto {
+  @ApiProperty({
+    required: false,
+    description: '是否分页(默认分页)',
+  })
+  @IsBoolean()
+  @IsOptional()
+  isPagination?: boolean = true;
+
   @ApiProperty({
     required: false,
     description: '部门名称',

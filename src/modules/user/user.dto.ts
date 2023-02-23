@@ -8,6 +8,7 @@ import {
   MaxLength,
   MinLength,
   IsInt,
+  IsBoolean,
 } from 'class-validator';
 import { PageOptionsDto } from '@/modules/core/dto/page.dto';
 import { UserGenderEnum, UserStatusEnum } from '@/enums/user.enum';
@@ -190,6 +191,14 @@ export class UpdateUserDto {
 
 /** 用户分页查询dto */
 export class PageSearchUserDto extends PageOptionsDto {
+  @ApiProperty({
+    required: false,
+    description: '是否分页(默认分页)',
+  })
+  @IsBoolean()
+  @IsOptional()
+  isPagination?: boolean = true;
+
   @ApiProperty({
     required: false,
     description: '用户名称',

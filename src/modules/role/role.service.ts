@@ -41,7 +41,7 @@ export class RoleService {
   /**
    * 根据角色Id数组删除
    */
-  async delete(ids: number[], isForced = false): Promise<boolean> {
+  async delete(ids: number[], isForced = false): Promise<number> {
     let res = 0;
     if (isForced) {
       await this.entityManager.transaction(async (manager) => {
@@ -55,7 +55,7 @@ export class RoleService {
         })
       ).affected;
     }
-    return res > 0;
+    return res;
   }
 
   /**

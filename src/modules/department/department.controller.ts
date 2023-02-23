@@ -31,39 +31,40 @@ export class DepartmentController {
     private userService: UserService,
   ) {}
 
-  @ApiOperation({ summary: '获取部门列表' })
-  @ApiOkResponse({ type: [Department] })
-  @Get('list')
-  async list(): Promise<Department[]> {
-    return await this.departmentService.list();
-  }
-
   @ApiOperation({ summary: '分页查询部门信息' })
   @ApiOkResponse({ type: [Department] })
   @Get()
   async page(
     @Query() dto: PageSearchDepartmentDto,
-  ): Promise<PaginatedResponseDto<Department>> {
-    const [list, total] = await this.departmentService.page(dto);
-    return {
-      list,
-      pagination: {
-        size: dto.size,
-        page: dto.page,
-        total,
-      },
-    };
+  ): Promise<PaginatedResponseDto<Department> | Department[]> {
+    if (dto.isPagination) {
+      // 分页查询
+      const [list, total] = await this.departmentService.page(dto);
+      return {
+        list,
+        pagination: {
+          size: dto.size,
+          page: dto.page,
+          total,
+        },
+      };
+    } else {
+      // 查询所有
+      return await this.departmentService.list();
+    }
   }
 
   @ApiOperation({ summary: '删除部门' })
+  @ApiOkResponse({ type: Number })
   @Delete('/:ids')
-  async delete(@Param('ids') ids: string): Promise<void> {
+  async delete(@Param('ids') ids: string): Promise<number> {
     const idArr = ids.split(',').map(Number);
 
-    await this.departmentService.delete(idArr);
+    return await this.departmentService.delete(idArr);
   }
 
   @ApiOperation({ summary: '新增部门' })
+  @ApiOkResponse({ type: Number })
   @Post()
   async add(
     @Body() dto: CreateDepartmentDto,
@@ -96,6 +97,7 @@ export class DepartmentController {
   }
 
   @ApiOperation({ summary: '更新部门' })
+  @ApiOkResponse({ type: Boolean })
   @Put('/:id')
   async update(
     @Param('id') id: number,

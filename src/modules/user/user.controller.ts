@@ -30,32 +30,31 @@ export class UserController {
 
   @ApiOperation({ summary: '获取用户列表' })
   @ApiOkResponse({ type: [User] })
-  @Get('list')
-  async list(): Promise<User[]> {
-    return await this.userService.list();
-  }
-
-  @ApiOperation({ summary: '分页查询用户信息' })
-  @ApiOkResponse({ type: [User] })
   @Get()
   async page(
     @Query() dto: PageSearchUserDto,
-  ): Promise<PaginatedResponseDto<User>> {
-    const [list, total] = await this.userService.page(dto);
-    return {
-      list,
-      pagination: {
-        size: dto.size,
-        page: dto.page,
-        total,
-      },
-    };
+  ): Promise<PaginatedResponseDto<User> | User[]> {
+    if (dto.isPagination) {
+      // 分页查询
+      const [list, total] = await this.userService.page(dto);
+      return {
+        list,
+        pagination: {
+          size: dto.size,
+          page: dto.page,
+          total,
+        },
+      };
+    } else {
+      // 查询所有
+      return await this.userService.list();
+    }
   }
 
   @ApiOperation({ summary: '删除用户' })
-  @ApiOkResponse({ type: Boolean })
+  @ApiOkResponse({ type: Number })
   @Delete('/:ids')
-  async delete(@Param('ids') ids: string): Promise<boolean> {
+  async delete(@Param('ids') ids: string): Promise<number> {
     const idArr = ids.split(',').map(Number);
     return await this.userService.delete(idArr);
   }

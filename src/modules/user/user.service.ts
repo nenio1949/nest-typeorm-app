@@ -53,7 +53,7 @@ export class UserService {
   /**
    * 根据用户Id数组删除
    */
-  async delete(ids: number[], isForced = false): Promise<boolean> {
+  async delete(ids: number[], isForced = false): Promise<number> {
     let res = 0;
     if (isForced) {
       await this.entityManager.transaction(async (manager) => {
@@ -67,7 +67,7 @@ export class UserService {
         })
       ).affected;
     }
-    return res > 0;
+    return res;
   }
 
   /**
