@@ -19,11 +19,12 @@ export class UserService {
   async list(): Promise<User[]> {
     return await this.userRepository.find({
       where: { deleted: false },
+      relations: ['role', 'department'],
     });
   }
 
   /**
-   * 列举所有用户条数：除去超级管理员
+   * 列举所有用户条数
    */
   async count(): Promise<number> {
     return await this.userRepository.count({
@@ -142,6 +143,7 @@ export class UserService {
     }
     const result = await this.userRepository.findAndCount({
       where,
+      relations: ['role', 'department'],
       order: {
         id: 'ASC',
       },

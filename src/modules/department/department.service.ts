@@ -18,6 +18,7 @@ export class DepartmentService {
   async list(): Promise<Department[]> {
     return await this.departmentRepository.find({
       where: { deleted: false },
+      relations: ['leader', 'parentDepartment'],
     });
   }
 
@@ -36,6 +37,7 @@ export class DepartmentService {
   async info(id: number): Promise<Department> {
     return await this.departmentRepository.findOne({
       where: { id: id, deleted: false },
+      relations: ['leader', 'parentDepartment'],
     });
   }
 
@@ -108,6 +110,7 @@ export class DepartmentService {
     }
     const result = await this.departmentRepository.findAndCount({
       where,
+      relations: ['leader', 'parentDepartment'],
       order: {
         id: 'ASC',
       },

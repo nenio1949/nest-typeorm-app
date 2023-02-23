@@ -12,7 +12,7 @@ export class RoleService {
   ) {}
 
   /**
-   * 列举所有角色：除去超级管理员
+   * 列举所有角色
    */
   async list(): Promise<Role[]> {
     return await this.roleRepository.find({
@@ -21,7 +21,7 @@ export class RoleService {
   }
 
   /**
-   * 列举所有角色条数：除去超级管理员
+   * 列举所有角色条数
    */
   async count(): Promise<number> {
     return await this.roleRepository.count({

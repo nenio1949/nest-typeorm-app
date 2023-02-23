@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -89,14 +88,6 @@ export class UpdateRoleDto {
 
 /** 角色分页查询dto */
 export class PageSearchRoleDto extends PageOptionsDto {
-  @ApiProperty({
-    required: false,
-    description: '是否分页(默认分页)',
-  })
-  @IsBoolean()
-  @IsOptional()
-  isPagination?: boolean = true;
-
   @ApiProperty({
     required: false,
     description: '角色名称',

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, Min } from 'class-validator';
+import { IsInt, IsOptional, Min } from 'class-validator';
 
 export class PageOptionsDto {
   /** 当前页包含数量(默认10) */
@@ -12,6 +12,7 @@ export class PageOptionsDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
+  @IsOptional()
   readonly size: number = 10;
 
   /** 当前页(默认1) */
@@ -23,7 +24,15 @@ export class PageOptionsDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
+  @IsOptional()
   readonly page: number = 1;
+
+  @ApiProperty({
+    required: false,
+    description: '是否分页(默认分页)',
+  })
+  @IsOptional()
+  isPagination?: boolean = true;
 }
 
 export class Pagination {
