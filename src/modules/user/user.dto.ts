@@ -103,14 +103,6 @@ export class CreateUserDto {
   })
   @IsOptional()
   creator: User;
-
-  /** 修改人 */
-  @ApiProperty({
-    description: '修改人',
-    required: false,
-  })
-  @IsOptional()
-  editor: User;
 }
 
 /** 用户更新dto */

@@ -70,7 +70,7 @@ export class UserController {
     const currentUser = await this.userService.info(adminUser.uid);
     dtoToEntity(dto, user);
     if (dto.roleId) {
-      if (dto.roleId !== user.role.id) {
+      if (dto.roleId !== user.role?.id) {
         const role = await this.roleService.info(dto.roleId);
         if (!role) {
           throw new Error('所选角色不存在！');
@@ -83,7 +83,7 @@ export class UserController {
       }
     }
     if (dto.departmentId) {
-      if (dto.departmentId !== user.department.id) {
+      if (dto.departmentId !== user.department?.id) {
         const department = await this.departmentService.info(dto.departmentId);
         if (!department) {
           throw new Error('所选部门不存在！');
@@ -96,7 +96,6 @@ export class UserController {
       }
     }
     user.creator = currentUser;
-    user.editor = currentUser;
     return await this.userService.add(user);
   }
 
@@ -113,7 +112,32 @@ export class UserController {
     if (!user) {
       throw new Error('用户不存在');
     }
-
+    if (dto.roleId) {
+      if (dto.roleId !== user.role?.id) {
+        const role = await this.roleService.info(dto.roleId);
+        if (!role) {
+          throw new Error('所选角色不存在！');
+        }
+        user.role = role;
+      }
+    } else {
+      if (dto.roleId === 0) {
+        user.role = null;
+      }
+    }
+    if (dto.departmentId) {
+      if (dto.departmentId !== user.department?.id) {
+        const department = await this.departmentService.info(dto.departmentId);
+        if (!department) {
+          throw new Error('所选部门不存在！');
+        }
+        user.department = department;
+      }
+    } else {
+      if (dto.departmentId === 0) {
+        user.department = null;
+      }
+    }
     dtoToEntity(dto, user);
     user.editor = currentUser;
     return await this.userService.update(user);

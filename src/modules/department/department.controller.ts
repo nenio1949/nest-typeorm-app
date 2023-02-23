@@ -74,7 +74,6 @@ export class DepartmentController {
     const currentUser = await this.userService.info(user.uid);
     dtoToEntity(dto, department);
     department.creator = currentUser;
-    department.editor = currentUser;
     let parentDepartment = new Department();
     let leader = new User();
     if (dto.parentId) {
@@ -111,7 +110,7 @@ export class DepartmentController {
     }
 
     if (dto.parentId) {
-      if (department.parentDepartment.id !== dto.parentId) {
+      if (department.parentDepartment?.id !== dto.parentId) {
         const parentDepartment = await this.departmentService.info(
           dto.parentId,
         );
@@ -127,7 +126,7 @@ export class DepartmentController {
     }
 
     if (dto.leaderId) {
-      if (department.leader.id !== dto.leaderId) {
+      if (department.leader?.id !== dto.leaderId) {
         const leader = await this.userService.info(dto.leaderId);
         if (!leader) {
           throw new Error('所选部门负责人不存在！');

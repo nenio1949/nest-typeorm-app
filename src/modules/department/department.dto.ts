@@ -16,6 +16,7 @@ export class CreateDepartmentDto {
   /** 部门名称 */
   @ApiProperty({
     description: '部门名称',
+    required: true,
   })
   @IsString()
   @MinLength(2)
@@ -48,14 +49,6 @@ export class CreateDepartmentDto {
   })
   @IsOptional()
   creator: Department;
-
-  /** 修改人 */
-  @ApiProperty({
-    description: '修改人',
-    required: false,
-  })
-  @IsOptional()
-  editor: Department;
 }
 
 /** 部门更新dto */
@@ -63,6 +56,7 @@ export class UpdateDepartmentDto {
   /** 部门名称 */
   @ApiProperty({
     description: '部门名称',
+    required: false,
   })
   @IsString()
   @MinLength(2)

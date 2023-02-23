@@ -69,7 +69,7 @@ export class RoleService {
       throw new Error('角色已存在!');
     }
     const role = await this.roleRepository.insert(param);
-    return parseInt(role.identifiers[0].id);
+    return parseInt(role.identifiers[0]?.id);
   }
 
   /**
@@ -86,7 +86,7 @@ export class RoleService {
 
     const res = await this.roleRepository.update(role.id, role);
 
-    return res.affected == 1;
+    return res.affected === 1;
   }
 
   /**
@@ -94,11 +94,15 @@ export class RoleService {
    */
   async page(param: PageSearchRoleDto): Promise<[Role[], number]> {
     const { size, page, name } = param;
+    const where: any = {
+      deleted: false,
+    };
+
+    if (param.name) {
+      where.name = Like(`%${name}%`);
+    }
     const result = await this.roleRepository.findAndCount({
-      where: {
-        name: Like(`%${name}%`),
-        deleted: false,
-      },
+      where,
       order: {
         id: 'ASC',
       },

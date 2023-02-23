@@ -69,7 +69,6 @@ export class RoleController {
     const currentUser = await this.userService.info(user.uid);
     dtoToEntity(dto, role);
     role.creator = currentUser;
-    role.editor = currentUser;
     return await this.roleService.add(role);
   }
 

@@ -37,6 +37,7 @@ export class UserService {
   async info(id: number): Promise<User> {
     return await this.userRepository.findOne({
       where: { id: id, deleted: false },
+      relations: ['role', 'department'],
     });
   }
 
@@ -94,18 +95,18 @@ export class UserService {
       throw new Error('手机号已被注册!');
     }
     const user = await this.userRepository.insert(param);
-    return parseInt(user.identifiers[0].id);
+    return parseInt(user.identifiers[0]?.id);
   }
 
   /**
    * 更新用户信息
    */
   async update(user: User): Promise<boolean> {
-    const sameNameUser = await this.userRepository.exist({
-      where: { name: user.name, id: Not(user.id), deleted: false },
+    const sameAccountUser = await this.userRepository.exist({
+      where: { account: user.account, id: Not(user.id), deleted: false },
     });
 
-    if (sameNameUser) {
+    if (sameAccountUser) {
       throw new Error('用户已存在!');
     }
 
@@ -115,9 +116,16 @@ export class UserService {
       }
     }
 
+    const sameMobileUser = await this.userRepository.exist({
+      where: { deleted: false, mobile: user.mobile, id: Not(user.id) },
+    });
+    if (sameMobileUser) {
+      throw new Error('手机号已被注册!');
+    }
+
     const res = await this.userRepository.update(user.id, user);
 
-    return res.affected == 1;
+    return res.affected === 1;
   }
 
   /**

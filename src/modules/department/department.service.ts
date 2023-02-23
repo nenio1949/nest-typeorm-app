@@ -71,7 +71,7 @@ export class DepartmentService {
     }
 
     const department = await this.departmentRepository.insert(param);
-    return parseInt(department.identifiers[0].id);
+    return parseInt(department.identifiers[0]?.id);
   }
 
   /**
@@ -91,7 +91,7 @@ export class DepartmentService {
       department,
     );
 
-    return res.affected == 1;
+    return res.affected === 1;
   }
 
   /**
@@ -99,11 +99,15 @@ export class DepartmentService {
    */
   async page(param: PageSearchDepartmentDto): Promise<[Department[], number]> {
     const { size, page, name } = param;
+    const where: any = {
+      deleted: false,
+    };
+
+    if (param.name) {
+      where.name = Like(`%${name}%`);
+    }
     const result = await this.departmentRepository.findAndCount({
-      where: {
-        name: Like(`%${name}%`),
-        deleted: false,
-      },
+      where,
       order: {
         id: 'ASC',
       },

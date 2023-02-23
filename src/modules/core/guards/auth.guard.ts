@@ -31,10 +31,11 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest<FastifyRequest>();
-    const token = (request.headers['authorization'] as string).replace(
-      'Bearer ',
-      '',
-    );
+    const authorization = request.headers['authorization'] as string;
+    if (!authorization) {
+      throw new ApiException(11001);
+    }
+    const token = authorization.replace('Bearer ', '');
     if (isEmpty(token)) {
       throw new ApiException(11001);
     }

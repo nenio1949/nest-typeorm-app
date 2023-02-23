@@ -14,6 +14,7 @@ export class CreateRoleDto {
   /** 角色名称 */
   @ApiProperty({
     description: '角色名称',
+    required: true,
   })
   @IsString()
   @MinLength(2)
@@ -46,14 +47,6 @@ export class CreateRoleDto {
   })
   @IsOptional()
   creator: User;
-
-  /** 修改人 */
-  @ApiProperty({
-    description: '修改人',
-    required: false,
-  })
-  @IsOptional()
-  editor: User;
 }
 
 /** 角色更新dto */

@@ -12,6 +12,7 @@ export class LoginDto {
   /** 账号 */
   @ApiProperty({
     description: '账号',
+    required: true,
   })
   @IsString()
   @MinLength(2)
@@ -22,7 +23,7 @@ export class LoginDto {
   /** 密码 */
   @ApiProperty({
     description: '密码',
-    required: false,
+    required: true,
   })
   @IsString()
   @MinLength(6)
