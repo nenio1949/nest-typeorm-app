@@ -7,7 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { PageOptionsDto } from '@/common/dto/page.dto';
+import { PageOptionsDto } from '@/modules/core/dto/page.dto';
 import { Department } from '@/entities/department.entity';
 import { User } from '@/entities/user.entity';
 /** 部门新增dto */

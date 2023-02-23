@@ -6,7 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { PageOptionsDto } from '@/common/dto/page.dto';
+import { PageOptionsDto } from '@/modules/core/dto/page.dto';
 import { User } from '@/entities/user.entity';
 /** 角色新增dto */
 export class CreateRoleDto {

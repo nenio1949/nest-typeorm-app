@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './login.dto';
 import { UserService } from '../user/user.service';
 import { RedisService } from '@/shared/services/redis.service';
-import { LoginResponse } from './login.class';
+import { LoginResponse } from './login.dto';
 
 @Injectable()
 export class LoginService {

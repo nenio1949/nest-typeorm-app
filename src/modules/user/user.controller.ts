@@ -9,7 +9,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiOperation, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { PaginatedResponseDto } from '@/common/dto/page.dto';
+import { PaginatedResponseDto } from '@/modules/core/dto/page.dto';
 import { User } from '@/entities/user.entity';
 import { CreateUserDto, PageSearchUserDto, UpdateUserDto } from './user.dto';
 import { UserService } from './user.service';
@@ -17,10 +17,10 @@ import { dtoToEntity } from '@/utils/dtoToEntity';
 import { RoleService } from '../role/role.service';
 import { DepartmentService } from '../department/department.service';
 import { CurrentUser } from '../core/decorators/current-user.decorator';
-import { ICurrentUser } from '@/common/interface.ts/admin.interface';
+import { ICurrentUser } from '@/modules/core/interface/admin.interface';
 
 @ApiTags('用户模块')
-@Controller('users')
+@Controller('v1/users')
 export class UserController {
   constructor(
     private userService: UserService,
@@ -57,7 +57,6 @@ export class UserController {
   @Delete('/:ids')
   async delete(@Param('ids') ids: string): Promise<boolean> {
     const idArr = ids.split(',').map(Number);
-
     return await this.userService.delete(idArr);
   }
 

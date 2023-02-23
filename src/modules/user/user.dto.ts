@@ -9,7 +9,7 @@ import {
   MinLength,
   IsInt,
 } from 'class-validator';
-import { PageOptionsDto } from '@/common/dto/page.dto';
+import { PageOptionsDto } from '@/modules/core/dto/page.dto';
 import { UserGenderEnum, UserStatusEnum } from '@/enums/user.enum';
 import { User } from '@/entities/user.entity';
 /** 用户新增dto */

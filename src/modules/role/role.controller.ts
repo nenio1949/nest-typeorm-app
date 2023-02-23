@@ -9,17 +9,17 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiOperation, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { PaginatedResponseDto } from '@/common/dto/page.dto';
+import { PaginatedResponseDto } from '@/modules/core/dto/page.dto';
 import { Role } from '@/entities/role.entity';
 import { CreateRoleDto, PageSearchRoleDto, UpdateRoleDto } from './role.dto';
 import { RoleService } from './role.service';
 import { dtoToEntity } from '@/utils/dtoToEntity';
-import { ICurrentUser } from '@/common/interface.ts/admin.interface';
+import { ICurrentUser } from '@/modules/core/interface/admin.interface';
 import { CurrentUser } from '../core/decorators/current-user.decorator';
 import { UserService } from '../user/user.service';
 
 @ApiTags('角色模块')
-@Controller('roles')
+@Controller('v1/roles')
 export class RoleController {
   constructor(
     private roleService: RoleService,

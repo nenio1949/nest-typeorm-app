@@ -8,7 +8,7 @@ import {
 import { FastifyReply } from 'fastify';
 import { LoggerService } from '@/shared/logger/logger.service';
 import { ApiException } from '../exceptions/api.exception';
-import { ResponseDto } from '../dto/response.dto';
+import { ResponseDto } from '../../modules/core/dto/response.dto';
 
 /**
  * 异常接管，统一异常返回数据

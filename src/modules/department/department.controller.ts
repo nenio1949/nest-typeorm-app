@@ -9,7 +9,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiOperation, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { PaginatedResponseDto } from '@/common/dto/page.dto';
+import { PaginatedResponseDto } from '@/modules/core/dto/page.dto';
 import { Department } from '@/entities/department.entity';
 import {
   CreateDepartmentDto,
@@ -21,10 +21,10 @@ import { UserService } from '../user/user.service';
 import { User } from '@/entities/user.entity';
 import { dtoToEntity } from '@/utils/dtoToEntity';
 import { CurrentUser } from '../core/decorators/current-user.decorator';
-import { ICurrentUser } from '@/common/interface.ts/admin.interface';
+import { ICurrentUser } from '@/modules/core/interface/admin.interface';
 
 @ApiTags('部门模块')
-@Controller('departments')
+@Controller('v1/departments')
 export class DepartmentController {
   constructor(
     private departmentService: DepartmentService,

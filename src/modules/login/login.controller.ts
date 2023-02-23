@@ -5,7 +5,7 @@ import { LoginDto } from './login.dto';
 import { FastifyRequest } from 'fastify';
 import { UtilService } from '@/shared/services/util.service';
 import { Authorize } from '../core/decorators/authorize.decorator';
-import { LoginResponse } from './login.class';
+import { LoginResponse } from './login.dto';
 
 @ApiTags('登录模块')
 @Controller()
