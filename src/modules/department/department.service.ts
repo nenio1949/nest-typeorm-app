@@ -88,12 +88,8 @@ export class DepartmentService {
       throw new Error('部门已存在!');
     }
 
-    const res = await this.departmentRepository.update(
-      department.id,
-      department,
-    );
-
-    return res.affected === 1;
+    await this.departmentRepository.save(department);
+    return true;
   }
 
   /**

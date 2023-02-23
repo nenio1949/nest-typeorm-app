@@ -124,9 +124,9 @@ export class UserService {
       throw new Error('手机号已被注册!');
     }
 
-    const res = await this.userRepository.update(user.id, user);
+    await this.userRepository.save(user);
 
-    return res.affected === 1;
+    return true;
   }
 
   /**

@@ -84,9 +84,9 @@ export class RoleService {
       throw new Error('角色已存在!');
     }
 
-    const res = await this.roleRepository.update(role.id, role);
+    await this.roleRepository.save(role);
 
-    return res.affected === 1;
+    return true;
   }
 
   /**

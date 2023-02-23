@@ -81,8 +81,9 @@ export class UpdateRoleDto {
   /** 修改人 */
   @ApiProperty({
     description: '修改人',
-    required: true,
+    required: false,
   })
+  @IsOptional()
   editor: User;
 }
 
