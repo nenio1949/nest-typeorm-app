@@ -3,12 +3,14 @@ import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/entities/user.entity';
 import { EntityManager, Like, Not, Repository } from 'typeorm';
 import { PageSearchUserDto } from './user.dto';
+import { UtilService } from '@/shared/services/util.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectEntityManager() private entityManager: EntityManager,
+    private utils: UtilService,
   ) {}
 
   /**
@@ -74,11 +76,22 @@ export class UserService {
    * 增加用户
    */
   async add(param: User): Promise<number> {
-    const sameNameUser = await this.userRepository.exist({
-      where: { deleted: false, name: param.name },
+    const sameAccountUser = await this.userRepository.exist({
+      where: { deleted: false, account: param.account },
     });
-    if (sameNameUser) {
+    if (sameAccountUser) {
       throw new Error('用户已存在!');
+    }
+
+    if (!this.utils.isMobile(param.mobile)) {
+      throw new Error('手机号格式校验不通过！');
+    }
+
+    const sameMobileUser = await this.userRepository.exist({
+      where: { deleted: false, mobile: param.mobile },
+    });
+    if (sameMobileUser) {
+      throw new Error('手机号已被注册!');
     }
     const user = await this.userRepository.insert(param);
     return parseInt(user.identifiers[0].id);
@@ -94,6 +107,12 @@ export class UserService {
 
     if (sameNameUser) {
       throw new Error('用户已存在!');
+    }
+
+    if (user.mobile) {
+      if (!this.utils.isMobile(user.mobile)) {
+        throw new Error('手机号格式校验不通过！');
+      }
     }
 
     const res = await this.userRepository.update(user.id, user);

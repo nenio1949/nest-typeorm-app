@@ -111,7 +111,7 @@ export class DepartmentController {
     }
 
     if (dto.parentId) {
-      if (department.parentDepartment.id != dto.parentId) {
+      if (department.parentDepartment.id !== dto.parentId) {
         const parentDepartment = await this.departmentService.info(
           dto.parentId,
         );
@@ -121,11 +121,13 @@ export class DepartmentController {
         department.parentDepartment = parentDepartment;
       }
     } else {
-      department.parentDepartment = null;
+      if (dto.parentId === 0) {
+        department.parentDepartment = null;
+      }
     }
 
     if (dto.leaderId) {
-      if (department.leader.id != dto.leaderId) {
+      if (department.leader.id !== dto.leaderId) {
         const leader = await this.userService.info(dto.leaderId);
         if (!leader) {
           throw new Error('所选部门负责人不存在！');
@@ -133,11 +135,13 @@ export class DepartmentController {
         department.leader = leader;
       }
     } else {
-      department.leader = null;
+      if (dto.leaderId === 0) {
+        department.leader = null;
+      }
     }
 
     dtoToEntity(dto, department);
-    dto.editor = currentUser;
+    department.editor = currentUser;
     return await this.departmentService.update(department);
   }
 

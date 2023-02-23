@@ -9,6 +9,7 @@ import {
   MinLength,
   IsInt,
   IsBoolean,
+  IsMobilePhone,
 } from 'class-validator';
 import { PageOptionsDto } from '@/modules/core/dto/page.dto';
 import { UserGenderEnum, UserStatusEnum } from '@/enums/user.enum';
@@ -42,6 +43,7 @@ export class CreateUserDto {
   })
   @MinLength(11)
   @MaxLength(11)
+  @IsMobilePhone()
   @IsNotEmpty({ message: '手机号不能为空！' })
   mobile: string;
 
@@ -139,6 +141,7 @@ export class UpdateUserDto {
   })
   @MinLength(11)
   @MaxLength(11)
+  @IsMobilePhone()
   @IsOptional()
   mobile: string;
 

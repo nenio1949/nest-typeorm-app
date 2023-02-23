@@ -83,6 +83,9 @@ export class RoleController {
   ): Promise<boolean> {
     const currentUser = await this.userService.info(user.uid);
     const role = await this.roleService.info(id);
+    if (!role) {
+      throw new Error('角色不存在！');
+    }
     dtoToEntity(dto, role);
     role.editor = currentUser;
     return await this.roleService.update(role);
