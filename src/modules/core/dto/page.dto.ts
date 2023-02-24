@@ -32,7 +32,7 @@ export class PageOptionsDto {
     description: '是否分页(默认分页)',
   })
   @IsOptional()
-  isPagination?: boolean = true;
+  pagination?: boolean = true;
 }
 
 export class Pagination {

@@ -37,7 +37,7 @@ export class DepartmentController {
   async page(
     @Query() dto: PageSearchDepartmentDto,
   ): Promise<PaginatedResponseDto<Department> | Department[]> {
-    if (dto.isPagination) {
+    if (dto.pagination && JSON.parse(dto.pagination.toString())) {
       // 分页查询
       const [list, total] = await this.departmentService.page(dto);
       return {

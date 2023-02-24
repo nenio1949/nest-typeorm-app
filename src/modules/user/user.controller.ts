@@ -34,7 +34,7 @@ export class UserController {
   async page(
     @Query() dto: PageSearchUserDto,
   ): Promise<PaginatedResponseDto<User> | User[]> {
-    if (dto.isPagination) {
+    if (dto.pagination && JSON.parse(dto.pagination.toString())) {
       // 分页查询
       const [list, total] = await this.userService.page(dto);
       return {

@@ -32,7 +32,7 @@ export class RoleController {
   async page(
     @Query() dto: PageSearchRoleDto,
   ): Promise<PaginatedResponseDto<Role> | Role[]> {
-    if (dto.isPagination) {
+    if (dto.pagination && JSON.parse(dto.pagination.toString())) {
       // 分页查询
       const [list, total] = await this.roleService.page(dto);
       return {
